@@ -1,0 +1,128 @@
+<!doctype html>
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+<head>
+<title>Joe's Grill - Contact Page</title>
+<link rel="stylesheet"type="text/css"href-"styles.css">
+<style>
+form {
+background-color: #999999;
+color= #000000;
+padding: 5px;
+width: 90%
+border-radius: 20px;
+}
+textarea {
+background-color: #999999;
+color: #000000
+border: 1px solid #800000;
+}
+input {
+border: 1px solid #800000;
+}
+input[type="email: "] {
+backround-color: 999999;
+}
+input[type=number] {
+background-color; #800000;
+color: #ffffff;
+label {
+color: #000000;
+}
+</style>
+</head>
+<body>
+<header>
+<img src="images/logo.jpg" alt="Joe's Grill logo" width="150" height="150">
+<h1>Joe's Grill!</h1>
+<br>
+<br>
+</header>
+<nav>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href=aboutus.html>About Us</a><li>
+<li><a href="menu.html">Menu</a></li>
+<li><a href-"history.html">History</li>
+<li><a href="nutrition">Nutrition</a></li>
+<li><a href="chef.html">Chef</a>
+<li><a herf="contactus.html">Contact Us</a></li>
+</ul>
+<nav>
+<main>
+<h2>Contact Us</h3>
+<p>Email:<br>
+<a href="mailto:joesgrill@mail.com">joesgrill@mail.com</a></p>
+<p>Address:<br>
+123 Our St<br>
+Geneva-on-the-Lake, OH 44444</p>
+<p>Phone:<br>
+(440)555-5555</p>
+<br>
+<h3>Tell Us What You Think:</h3>
+<form action="" method="" autocomplete="on">
+<select name="prefix">
+<option value=" ">Select One</option>
+<option value="mr">Mr.</option>
+<option value="mrs">Mrs.</option>
+<option value="ms">Ms.</option>
+</select>
+<br>
+<br>
+<lable>First Name:</lable>
+<input type="text" name="fname" required>&#160&#160&#160&#160
+<label>Last Name:</label>
+<input type="text" name="lname"><br></br>
+<label>Email:</label>
+<input type="email" name="email" autocomplete="off" required>&#16;0&#160;&#160;&#160;
+<label>Telephone:</label>
+<input type="tel" name="phone"><br></br>
+<label>Date:</label>
+<input type="date" value=" ">
+<h2>Enter your four-digit passcode, then click OK:</h2>
+<input id="id1" type="number" min="1000" max="9999" required>
+<button onclick="myFunction()">OK</button>
+<p id=passcode"></p>
+<script>
+function myFunction() {
+ var inpObj = document.getElementById("id1");
+ if (inpObj.checkValidity() == false) {
+ document.getElementById("passcode").innerHTML =
+inpObj.validationMessage;
+ } else {
+ document.getElementById("passcode").innerHTML = "Passcode Valid";
+ }
+}
+</script>
+<h3>Gender:</h3>
+ <input type="radio" name="male" value="male">Male<br>
+ <input type="radio" name="female" value="female">Female
+<br><br>
+<p><b>Select your favorites at Joe's Grill</b><br><i>Check all that apply</i></p>
+ <input type="check box" name="favorites" value-"chicken">Chicken<br>
+ <input type="check box" name="favorites" value-"cheeseburgers">Cheeseburgers<br>
+ <input type="check box" name="favorites" value-"French fries">French Fries<br>
+ <input type="check box" name="favorites" value-"deserts">Deserts
+<br><br>
+<p>Comments:</p>
+ <textarea rows="10" cols="30"></textarea>
+<br><br>
+<input type="checkbox" name="newsletter" value="subscribe">Subscribe to our Newsletter
+<br>
+<br>
+ <input type="reset" value="Reset Form">
+ <input type="submit" value="Submit Form">
+<br><br>
+</form>
+<br>
+<hr>
+</main>
+ <footer>
+ </footer>
+</body>
+</html>
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:Category0 msdt:dt="string">***Choose***</mso:Category0>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
