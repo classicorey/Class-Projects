@@ -1,0 +1,15 @@
+C:\Users\Corey Crooks\OneDrive\aIT481 Advanced Software Development II\IT481_Crooks_Unit7\bin\Debug\net6.0\IT481_Crooks_Unit7.exe
+C:\Users\Corey Crooks\OneDrive\aIT481 Advanced Software Development II\IT481_Crooks_Unit7\bin\Debug\net6.0\IT481_Crooks_Unit7.deps.json
+C:\Users\Corey Crooks\OneDrive\aIT481 Advanced Software Development II\IT481_Crooks_Unit7\bin\Debug\net6.0\IT481_Crooks_Unit7.runtimeconfig.json
+C:\Users\Corey Crooks\OneDrive\aIT481 Advanced Software Development II\IT481_Crooks_Unit7\bin\Debug\net6.0\IT481_Crooks_Unit7.dll
+C:\Users\Corey Crooks\OneDrive\aIT481 Advanced Software Development II\IT481_Crooks_Unit7\bin\Debug\net6.0\IT481_Crooks_Unit7.pdb
+C:\Users\Corey Crooks\OneDrive\aIT481 Advanced Software Development II\IT481_Crooks_Unit7\obj\Debug\net6.0\IT481_Crooks_Unit7.csproj.AssemblyReference.cache
+C:\Users\Corey Crooks\OneDrive\aIT481 Advanced Software Development II\IT481_Crooks_Unit7\obj\Debug\net6.0\IT481_Crooks_Unit7.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Corey Crooks\OneDrive\aIT481 Advanced Software Development II\IT481_Crooks_Unit7\obj\Debug\net6.0\IT481_Crooks_Unit7.AssemblyInfoInputs.cache
+C:\Users\Corey Crooks\OneDrive\aIT481 Advanced Software Development II\IT481_Crooks_Unit7\obj\Debug\net6.0\IT481_Crooks_Unit7.AssemblyInfo.cs
+C:\Users\Corey Crooks\OneDrive\aIT481 Advanced Software Development II\IT481_Crooks_Unit7\obj\Debug\net6.0\IT481_Crooks_Unit7.csproj.CoreCompileInputs.cache
+C:\Users\Corey Crooks\OneDrive\aIT481 Advanced Software Development II\IT481_Crooks_Unit7\obj\Debug\net6.0\IT481_Crooks_Unit7.dll
+C:\Users\Corey Crooks\OneDrive\aIT481 Advanced Software Development II\IT481_Crooks_Unit7\obj\Debug\net6.0\refint\IT481_Crooks_Unit7.dll
+C:\Users\Corey Crooks\OneDrive\aIT481 Advanced Software Development II\IT481_Crooks_Unit7\obj\Debug\net6.0\IT481_Crooks_Unit7.pdb
+C:\Users\Corey Crooks\OneDrive\aIT481 Advanced Software Development II\IT481_Crooks_Unit7\obj\Debug\net6.0\IT481_Crooks_Unit7.genruntimeconfig.cache
+C:\Users\Corey Crooks\OneDrive\aIT481 Advanced Software Development II\IT481_Crooks_Unit7\obj\Debug\net6.0\ref\IT481_Crooks_Unit7.dll
