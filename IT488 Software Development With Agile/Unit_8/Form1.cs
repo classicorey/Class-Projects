@@ -1,0 +1,809 @@
+using System.Security.Cryptography.X509Certificates;
+using System.Windows.Forms;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
+using System.Threading;
+using System.Reflection.Emit;
+using What2Eat;
+
+namespace What2Eat
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+
+            lblOption1Name.Text = String.Empty;
+            lblOption2Name.Text = String.Empty;
+            lblOption3Name.Text = String.Empty;
+            lblOption4Name.Text = String.Empty;
+            lblOption5Name.Text = String.Empty;
+            lblOption6Name.Text = String.Empty;
+            lblOption7Name.Text = String.Empty;
+            lblOption8Name.Text = String.Empty;
+            lblOption9Name.Text = String.Empty;
+            lblOption10Name.Text = String.Empty;
+
+
+            this.Text = "What2Eat";
+            lblWelcome.Text = "Welcome in!\nHope you're hungry!\n\nLet's get you something to eat.";
+            //Place first screen elements in their proper places
+            //    put the welcome message, the selection message, and the buttons at their correct heights on screen.
+            lblWelcome.Top = this.Top + 30;
+            btnRollOption.Top = lblWelcome.Top + lblWelcome.Height + 20;
+            btnViewOptions.Top = btnRollOption.Top;
+            lblSelection.Top = btnViewOptions.Top + btnViewOptions.Height + 30;
+            lblSelectionStroke.Top = lblSelection.Top - 2;
+
+
+            //    put the welcome message, the selection message, and the buttons at their correct X cord on screen.
+            int formWidth = this.Width;
+            int perfectOffset = (formWidth - lblWelcome.Width) / 2;
+            lblWelcome.Left = perfectOffset;
+            PlaceLabelStroke(lblWelcome, lblWelcomeStroke);
+            perfectOffset = (formWidth - (btnRollOption.Width + btnViewOptions.Width + 6)) / 2;
+            btnRollOption.Left = perfectOffset - 6;
+            btnViewOptions.Left = perfectOffset + btnRollOption.Width + 6;
+
+            //Place second screen elements into their proper places
+            //  This part's a little jumbled compared to the first screen. I plan on re-organizing it to make this more readable.
+            //  Center the welcome message
+            perfectOffset = (this.Width - lblOptionsWelcome.Width) / 2;
+            lblOptionsWelcome.Left = perfectOffset;
+            //  Place the stroke label accordingly
+            PlaceLabelStroke(lblOptionsWelcome, lblOptionsWelcomeStroke);
+            //    Set the back button's X coord properly.
+            btnBack.Left = (perfectOffset / 2) - (btnBack.Width / 2);
+            //    lay the groundwork for button size, location
+            //    Set the first "Option X:" label where it needs to go using the button's location.
+            lblOption1.Left = btnBack.Left + btnBack.Width;
+            lblOption1.Top = lblWelcome.Top + lblWelcome.Height + 5;
+            //    Place the stoke label where it needs to go.
+            PlaceLabelStroke(lblOption1, lblOption1Stroke);
+            //    Place the Reroll Text Button where it needs to go using the welcome message, and back button's location
+            btnRemoveOptions.Left = this.Width - (perfectOffset / 2) - (btnRemoveOptions.Width / 2);
+            btnRemoveOptions.Top = btnBack.Top - btnRemoveOptions.Height;
+            btnAddOptions.Top = btnBack.Top + btnAddOptions.Height;
+            btnAddOptions.Left = btnRemoveOptions.Left;
+
+            //    Set two variables to control the spacing vertically and horizontally between the option labels.
+            //        change once, change many.
+            int optionVertSpacing = lblOption1.Height + 5;
+            int optionColumnSpacing = lblOption1.Width + 15;
+
+            //Set the first option label's position using the coorisponding information label position. 
+            lblOption1Name.Left = lblOption1.Left + optionColumnSpacing;
+            lblOption1Name.Top = lblOption1.Top;
+            //Adjust the stroke label's position and size.
+            lblOption1Name.SizeChanged += (s, ev) => AdjustAutoSizeLabelStroke(lblOption1Name, lblOption1NameStroke);
+
+            //     place each option label and stroke label in their correct location for option numbers using the above method.
+            //     Yes. I do realize this can be further refactored. It's 3:44 AM and I just want to go to bed.
+            lblOption2.Left = lblOption1.Left;
+            lblOption2.Top = lblOption1.Top + optionVertSpacing;
+            PlaceLabelStroke(lblOption2, lblOption2Stroke);
+
+            lblOption2Name.Left = lblOption1Name.Left;
+            lblOption2Name.Top = lblOption2.Top;
+            lblOption2Name.SizeChanged += (s, ev) => AdjustAutoSizeLabelStroke(lblOption2Name, lblOption2NameStroke);
+
+            lblOption3.Left = lblOption2.Left;
+            lblOption3.Top = lblOption2.Top + optionVertSpacing;
+            PlaceLabelStroke(lblOption3, lblOption3Stroke);
+
+            lblOption3Name.Left = lblOption2Name.Left;
+            lblOption3Name.Top = lblOption3.Top;
+            lblOption3Name.SizeChanged += (s, ev) => AdjustAutoSizeLabelStroke(lblOption3Name, lblOption3NameStroke);
+
+            lblOption4.Left = lblOption3.Left;
+            lblOption4.Top = lblOption3.Top + optionVertSpacing;
+            PlaceLabelStroke(lblOption4, lblOption4Stroke);
+
+            lblOption4Name.Left = lblOption3Name.Left;
+            lblOption4Name.Top = lblOption4.Top;
+            lblOption4Name.SizeChanged += (s, ev) => AdjustAutoSizeLabelStroke(lblOption4Name, lblOption4NameStroke);
+
+            lblOption5.Left = lblOption4.Left;
+            lblOption5.Top = lblOption4.Top + optionVertSpacing;
+            PlaceLabelStroke(lblOption5, lblOption5Stroke);
+
+            lblOption5Name.Left = lblOption4Name.Left;
+            lblOption5Name.Top = lblOption5.Top;
+            lblOption5Name.SizeChanged += (s, ev) => AdjustAutoSizeLabelStroke(lblOption5Name, lblOption5NameStroke);
+
+            lblOption6.Left = lblOption5.Left;
+            lblOption6.Top = lblOption5.Top + optionVertSpacing;
+            PlaceLabelStroke(lblOption6, lblOption6Stroke);
+
+            lblOption6Name.Left = lblOption5Name.Left;
+            lblOption6Name.Top = lblOption6.Top;
+            lblOption6Name.SizeChanged += (s, ev) => AdjustAutoSizeLabelStroke(lblOption6Name, lblOption6NameStroke);
+
+            lblOption7.Left = lblOption6.Left;
+            lblOption7.Top = lblOption6.Top + optionVertSpacing;
+            PlaceLabelStroke(lblOption7, lblOption7Stroke);
+
+            lblOption7Name.Left = lblOption6Name.Left;
+            lblOption7Name.Top = lblOption7.Top;
+            lblOption7Name.SizeChanged += (s, ev) => AdjustAutoSizeLabelStroke(lblOption7Name, lblOption7NameStroke);
+
+            lblOption8.Left = lblOption7.Left;
+            lblOption8.Top = lblOption7.Top + optionVertSpacing;
+            PlaceLabelStroke(lblOption8, lblOption8Stroke);
+
+            lblOption8Name.Left = lblOption7Name.Left;
+            lblOption8Name.Top = lblOption8.Top;
+            lblOption8Name.SizeChanged += (s, ev) => AdjustAutoSizeLabelStroke(lblOption8Name, lblOption8NameStroke);
+
+            lblOption9.Left = lblOption8.Left;
+            lblOption9.Top = lblOption8.Top + optionVertSpacing;
+            PlaceLabelStroke(lblOption9, lblOption9Stroke);
+
+            lblOption9Name.Left = lblOption8Name.Left;
+            lblOption9Name.Top = lblOption9.Top;
+            lblOption9Name.SizeChanged += (s, ev) => AdjustAutoSizeLabelStroke(lblOption9Name, lblOption9NameStroke);
+
+            lblOption10.Left = lblOption9.Left - 8;
+            lblOption10.Top = lblOption9.Top + optionVertSpacing;
+            PlaceLabelStroke(lblOption10, lblOption10Stroke);
+
+            lblOption10Name.Left = lblOption9Name.Left;
+            lblOption10Name.Top = lblOption10.Top;
+            lblOption10Name.SizeChanged += (s, ev) => AdjustAutoSizeLabelStroke(lblOption10Name, lblOption10NameStroke);
+
+            perfectOffset = lblOptionsWelcome.Left + ((lblOptionsWelcome.Width - txtInput.Width) / 2);
+            txtInput.Left = perfectOffset;
+            txtInput.Top = lblOption3.Top;
+
+            perfectOffset = txtInput.Left + ((txtInput.Width - btnConfirm.Width) / 2);
+            btnConfirm.Left = perfectOffset;
+            btnConfirm.Top = lblOption7.Top;
+
+            //Set the form color to the decided upon value.
+            this.BackColor = ColorTranslator.FromHtml("#CCBFCA");
+
+            //Set aesthetic properties for first screen elements.
+            SetLabelColors(lblWelcome, lblWelcomeStroke);
+            lblSelection.Visible = false;
+            lblSelectionStroke.Visible = false;
+            SetLabelColors(lblSelection, lblSelectionStroke);
+
+            SetButtonColors(btnRollOption);
+            SetButtonColors(btnViewOptions);
+
+            //Set aesthetic properties for second screen elements
+            SetLabelColors(lblOptionsWelcome, lblOptionsWelcomeStroke);
+            SetLabelColors(lblOption1, lblOption1Stroke);
+            SetLabelColors(lblOption2, lblOption2Stroke);
+            SetLabelColors(lblOption3, lblOption3Stroke);
+            SetLabelColors(lblOption4, lblOption4Stroke);
+            SetLabelColors(lblOption5, lblOption5Stroke);
+            SetLabelColors(lblOption6, lblOption6Stroke);
+            SetLabelColors(lblOption7, lblOption7Stroke);
+            SetLabelColors(lblOption8, lblOption8Stroke);
+            SetLabelColors(lblOption9, lblOption9Stroke);
+            SetLabelColors(lblOption10, lblOption10Stroke);
+            SetLabelColors(lblOption1Name, lblOption1NameStroke);
+            SetLabelColors(lblOption2Name, lblOption2NameStroke);
+            SetLabelColors(lblOption3Name, lblOption3NameStroke);
+            SetLabelColors(lblOption4Name, lblOption4NameStroke);
+            SetLabelColors(lblOption5Name, lblOption5NameStroke);
+            SetLabelColors(lblOption6Name, lblOption6NameStroke);
+            SetLabelColors(lblOption7Name, lblOption7NameStroke);
+            SetLabelColors(lblOption8Name, lblOption8NameStroke);
+            SetLabelColors(lblOption9Name, lblOption9NameStroke);
+            SetLabelColors(lblOption10Name, lblOption10NameStroke);
+
+            SetButtonColors(btnBack);
+            SetButtonColors(btnRemoveOptions);
+            SetButtonColors(btnAddOptions);
+            SetButtonColors(btnConfirm);
+
+            txtInput.BackColor = ColorTranslator.FromHtml("#C5B3CC");
+            txtInput.ForeColor = ColorTranslator.FromHtml("#4F4F4F");
+            txtInput.Font = new Font("Helvetica", lblWelcome.Font.Size);
+
+            showFirstPage();
+        }
+
+        //When the Roll Option button is clicked,
+        private void btnRollOption_Click(object sender, EventArgs e)
+        {
+            //Display the selection.
+            displaySelection();
+
+        }
+
+        //When the View Options button is clicked,
+        private void btnViewOptions_Click(object sender, EventArgs e)
+        {
+
+            lblWelcome.Text = "Welcome in!\nHope you're hungry!\n\nLet's get you something to eat.";
+            //Show the second page, and hide the first.
+            showSecondPage();
+        }
+        private void displaySelection()
+        {
+            if (lblOption1Name.Text == string.Empty)
+            {
+                lblWelcome.Text = "You don't have options recorded. \nView your options to add one.";
+                return;
+            }
+            //Create an array of strings for a varried result each click.
+            string[] choiceText = new string[] { 
+                "     We've scrubbed all 14,000,605 realities for the best possible outcome.     ", 
+                "     We've passed word around the office. We've got something you'll like.     ", 
+                "     Every day is an adventure; today especially.     ", 
+                "     This option is scientifically proven to cure your frustrations.     ", 
+                "     We're excited about this one in particular.     ", 
+                "     We outsourced this one to the magic eight ball.     ", 
+                "     The heavens parted, and delivered this message:     ", 
+                "     Food? This is where you're going to need to go.     ", 
+                "     Our cutting edge algorithms have chosen specifically for you.     ", 
+                "     The deliciousness from this suggestion almost broke our servers (just kidding. We don't use servers).     " 
+            };
+
+            //Start a random number object.
+            Random rnd = new Random();
+            int i = rnd.Next(0, choiceText.Length);
+            string chosenIntro = choiceText[i];
+
+
+            string filePath = @"restaraunts.txt";
+            string maxFileContents = lblOption1Name.Text + "," + lblOption2Name.Text + "," + lblOption3Name.Text + "," + lblOption4Name.Text + "," + lblOption5Name.Text + "," + lblOption6Name.Text + "," + lblOption7Name.Text + "," + lblOption8Name.Text + "," + lblOption9Name.Text + "," + lblOption10Name.Text;
+            File.WriteAllText(filePath, maxFileContents);
+            string chosenText = "";
+            while (chosenText == "")
+            {
+                i = rnd.Next(0, 9);
+                switch (i)
+                {
+                    case 0:
+                        chosenText = lblOption1Name.Text;
+                        break;
+                    case 1:
+                        chosenText = lblOption2Name.Text;
+                        break;
+                    case 2:
+                        chosenText = lblOption3Name.Text;
+                        break;
+                    case 3:
+                        chosenText = lblOption4Name.Text;
+                        break;
+                    case 4:
+                        chosenText = lblOption5Name.Text;
+                        break;
+                    case 5:
+                        chosenText = lblOption6Name.Text;
+                        break;
+                    case 6:
+                        chosenText = lblOption7Name.Text;
+                        break;
+                    case 7:
+                        chosenText = lblOption8Name.Text;
+                        break;
+                    case 8:
+                        chosenText = lblOption9Name.Text;
+                        break;
+                    case 9:
+                        chosenText = lblOption10Name.Text;
+                        break;
+                }
+            }
+            //pick a random string from the choiceText array as an opener, and then display the result.
+            lblSelection.Text = chosenIntro + "\r\n\r\n     We think " + chosenText + " is the right call today.     ";
+
+            //Create some helper variables to determine the precice loction the labels need to be at.
+            int formWidth = this.Width;
+            int perfectOffset = (formWidth - lblSelection.Width) / 2;
+
+            //Align the suggestion box centered on the form.
+            lblSelectionStroke.Width = lblSelection.Width + 4;
+            lblSelection.Left = perfectOffset;
+            lblSelectionStroke.Left = perfectOffset - 2;
+            lblSelection.Visible = true;
+            lblSelectionStroke.Visible = true;
+        }
+
+        //when the page-2 back button is clicked,
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            //Show the first page and hide the second.
+            showFirstPage();
+
+        }
+        private void showFirstPage()
+        {
+            //Hide every element on the second page
+            lblOptionsWelcome.Visible = false;
+            lblOptionsWelcomeStroke.Visible = false;
+            btnBack.Visible = false;
+            lblOption1.Visible = false;
+            lblOption2.Visible = false;
+            lblOption3.Visible = false;
+            lblOption4.Visible = false;
+            lblOption5.Visible = false;
+            lblOption6.Visible = false;
+            lblOption7.Visible = false;
+            lblOption8.Visible = false;
+            lblOption9.Visible = false;
+            lblOption10.Visible = false;
+            lblOption1Stroke.Visible = false;
+            lblOption2Stroke.Visible = false;
+            lblOption3Stroke.Visible = false;
+            lblOption4Stroke.Visible = false;
+            lblOption5Stroke.Visible = false;
+            lblOption6Stroke.Visible = false;
+            lblOption7Stroke.Visible = false;
+            lblOption8Stroke.Visible = false;
+            lblOption9Stroke.Visible = false;
+            lblOption10Stroke.Visible = false;
+            lblOption1Name.Visible = false;
+            lblOption2Name.Visible = false;
+            lblOption3Name.Visible = false;
+            lblOption4Name.Visible = false;
+            lblOption5Name.Visible = false;
+            lblOption6Name.Visible = false;
+            lblOption7Name.Visible = false;
+            lblOption8Name.Visible = false;
+            lblOption9Name.Visible = false;
+            lblOption10Name.Visible = false;
+            lblOption1NameStroke.Visible = false;
+            lblOption2NameStroke.Visible = false;
+            lblOption3NameStroke.Visible = false;
+            lblOption4NameStroke.Visible = false;
+            lblOption5NameStroke.Visible = false;
+            lblOption6NameStroke.Visible = false;
+            lblOption7NameStroke.Visible = false;
+            lblOption8NameStroke.Visible = false;
+            lblOption9NameStroke.Visible = false;
+            lblOption10NameStroke.Visible = false;
+            btnRemoveOptions.Visible = false;
+            btnAddOptions.Visible = false;
+            txtInput.Visible = false;
+            btnConfirm.Visible = false;
+
+            //Show every element on the first page
+            lblWelcome.Visible = true;
+            lblWelcomeStroke.Visible = true;
+            btnRollOption.Visible = true;
+            btnViewOptions.Visible = true;
+            populateOptionLabels();
+        }
+        private void showSecondPage()
+        {
+            //Hide every element on the first page
+            lblWelcome.Visible = false;
+            lblWelcomeStroke.Visible = false;
+            btnRollOption.Visible = false;
+            btnViewOptions.Visible = false;
+            lblSelection.Visible = false;
+            lblSelectionStroke.Visible = false;
+            txtInput.Visible = false;
+            btnConfirm.Visible = false;
+
+            //Show every element on the second page.
+            lblOptionsWelcome.Visible = true;
+            lblOptionsWelcomeStroke.Visible = true;
+            btnBack.Visible = true;
+            lblOption1.Visible = true;
+            lblOption2.Visible = true;
+            lblOption3.Visible = true;
+            lblOption4.Visible = true;
+            lblOption5.Visible = true;
+            lblOption6.Visible = true;
+            lblOption7.Visible = true;
+            lblOption8.Visible = true;
+            lblOption9.Visible = true;
+            lblOption10.Visible = true;
+            lblOption1Stroke.Visible = true;
+            lblOption2Stroke.Visible = true;
+            lblOption3Stroke.Visible = true;
+            lblOption4Stroke.Visible = true;
+            lblOption5Stroke.Visible = true;
+            lblOption6Stroke.Visible = true;
+            lblOption7Stroke.Visible = true;
+            lblOption8Stroke.Visible = true;
+            lblOption9Stroke.Visible = true;
+            lblOption10Stroke.Visible = true;
+            lblOption1Name.Visible = true;
+            lblOption2Name.Visible = true;
+            lblOption3Name.Visible = true;
+            lblOption4Name.Visible = true;
+            lblOption5Name.Visible = true;
+            lblOption6Name.Visible = true;
+            lblOption7Name.Visible = true;
+            lblOption8Name.Visible = true;
+            lblOption9Name.Visible = true;
+            lblOption10Name.Visible = true;
+            lblOption1NameStroke.Visible = true;
+            lblOption2NameStroke.Visible = true;
+            lblOption3NameStroke.Visible = true;
+            lblOption4NameStroke.Visible = true;
+            lblOption5NameStroke.Visible = true;
+            lblOption6NameStroke.Visible = true;
+            lblOption7NameStroke.Visible = true;
+            lblOption8NameStroke.Visible = true;
+            lblOption9NameStroke.Visible = true;
+            lblOption10NameStroke.Visible = true;
+            btnRemoveOptions.Visible = true;
+            btnAddOptions.Visible = true;
+
+            populateOptionLabels();
+        }
+        private void populateOptionLabels()
+        {
+            string filePath = @"restaraunts.txt";
+            List<string> lines = new List<string>();
+            lines = File.ReadAllLines(filePath).ToList();
+            string fileContents = lines[0];
+
+            foreach (string line in lines)
+            {
+                int i = 1;
+                String[] parts = line.Split(',');
+                //Console.WriteLine(line);
+                foreach (string part in parts)
+                {
+                    if (part != "")
+                    {
+                        switch (i)
+                        {
+                            case 1:
+                                lblOption1Name.Text = part;
+                                break;
+                            case 2:
+                                lblOption2Name.Text = part;
+                                break;
+                            case 3:
+                                lblOption3Name.Text = part;
+                                break;
+                            case 4:
+                                lblOption4Name.Text = part;
+                                break;
+                            case 5:
+                                lblOption5Name.Text = part;
+                                break;
+                            case 6:
+                                lblOption6Name.Text = part;
+                                break;
+                            case 7:
+                                lblOption7Name.Text = part;
+                                break;
+                            case 8:
+                                lblOption8Name.Text = part;
+                                break;
+                            case 9:
+                                lblOption9Name.Text = part;
+                                break;
+                            case 10:
+                                lblOption10Name.Text = part;
+                                break;
+                        }
+                    }
+                    i++;
+                }
+            }
+
+            string maxFileContents = lblOption1Name.Text + "," + lblOption2Name.Text + "," + lblOption3Name.Text + "," + lblOption4Name.Text + "," + lblOption5Name.Text + "," + lblOption6Name.Text + "," + lblOption7Name.Text + "," + lblOption8Name.Text + "," + lblOption9Name.Text + "," + lblOption10Name.Text;
+            File.WriteAllText(filePath, maxFileContents);
+        }
+
+        private void AdjustAutoSizeLabelStroke(System.Windows.Forms.Label mainLabel, System.Windows.Forms.Label strokeLabel)
+        {
+            //Use the "main" label to set the location and size for the secondary label.
+            //I tried using this for both auto-size true and false labels, for some reason it only works if it's in two different functions?
+            //I think I need another 15 minutes to figure that out and just have one function.
+            //They look like they're doing the exact some thing.
+            strokeLabel.Location = new Point(mainLabel.Location.X - 2, mainLabel.Location.Y - 2);
+            strokeLabel.Width = mainLabel.Width + 4;
+            strokeLabel.Height = mainLabel.Height + 4;
+        }
+
+        private void PlaceLabelStroke(System.Windows.Forms.Label mainLabel, System.Windows.Forms.Label strokeLabel)
+        {
+            //Same thing as above.
+            //I have zero clue as to why this wasn't working with auto-size true labels.
+            strokeLabel.Location = new Point(mainLabel.Location.X - 2, mainLabel.Location.Y - 2);
+            strokeLabel.Width = mainLabel.Width + 4;
+            strokeLabel.Height = mainLabel.Height + 4;
+        }
+
+        private void SetLabelColors(System.Windows.Forms.Label mainLabel, System.Windows.Forms.Label strokeLabel)
+        {
+            //Set the label and stroke label colours to match the aesthetic directions.
+            mainLabel.BackColor = ColorTranslator.FromHtml("#C5B3CC");
+            mainLabel.ForeColor = ColorTranslator.FromHtml("#4F4F4F");
+            mainLabel.Font = new Font("Helvetica", lblWelcome.Font.Size);
+            strokeLabel.BackColor = ColorTranslator.FromHtml("#959595");
+            strokeLabel.Font = new Font("Helvetica", lblWelcome.Font.Size);
+        }
+        private void SetButtonColors(System.Windows.Forms.Button button)
+        {
+            //Set the button colours to match the aesthetic directions.
+            button.FlatStyle = FlatStyle.Flat;
+            button.FlatAppearance.BorderSize = 3;
+            button.BackColor = ColorTranslator.FromHtml("#B98DA1");
+            button.ForeColor = ColorTranslator.FromHtml("#4C3B43");
+        }
+
+        private void btnRemoveOption(object sender, EventArgs e)
+        {
+            if (lblOption1Name.Text == String.Empty)
+            {
+                lblOptionsWelcome.Text = "You need to add at least one option.";
+                return;
+            }
+
+            if (lblOption10Name.Text != String.Empty)
+            {
+                deleteFromFile(lblOption10Name.Text);
+                return;
+            }
+
+            if (lblOption9Name.Text != String.Empty)
+            {
+                deleteFromFile(lblOption9Name.Text);
+                return;
+            }
+
+            if (lblOption8Name.Text != String.Empty)
+            {
+                deleteFromFile(lblOption8Name.Text);
+                return;
+            }
+
+            if (lblOption7Name.Text != String.Empty)
+            {
+                deleteFromFile(lblOption7Name.Text);
+                return;
+            }
+
+            if (lblOption6Name.Text != String.Empty)
+            {
+                deleteFromFile(lblOption6Name.Text);
+                return;
+            }
+
+            if (lblOption5Name.Text != String.Empty)
+            {
+                deleteFromFile(lblOption5Name.Text);
+                return;
+            }
+
+            if (lblOption4Name.Text != String.Empty)
+            {
+                deleteFromFile(lblOption4Name.Text);
+                return;
+            }
+
+            if (lblOption3Name.Text != String.Empty)
+            {
+                deleteFromFile(lblOption3Name.Text);
+                return;
+            }
+
+            if (lblOption2Name.Text != String.Empty)
+            {
+                deleteFromFile(lblOption2Name.Text);
+                return;
+            }
+
+            if (lblOption1Name.Text != String.Empty)
+            {
+                deleteFromFile(lblOption1Name.Text);
+                return;
+            }
+        }
+        private void btnAddOptions_Click(object sender, EventArgs e)
+        {
+            lblOption1.Visible = false;
+            lblOption2.Visible = false;
+            lblOption3.Visible = false;
+            lblOption4.Visible = false;
+            lblOption5.Visible = false;
+            lblOption6.Visible = false;
+            lblOption7.Visible = false;
+            lblOption8.Visible = false;
+            lblOption9.Visible = false;
+            lblOption10.Visible = false;
+            lblOption1Stroke.Visible = false;
+            lblOption2Stroke.Visible = false;
+            lblOption3Stroke.Visible = false;
+            lblOption4Stroke.Visible = false;
+            lblOption5Stroke.Visible = false;
+            lblOption6Stroke.Visible = false;
+            lblOption7Stroke.Visible = false;
+            lblOption8Stroke.Visible = false;
+            lblOption9Stroke.Visible = false;
+            lblOption10Stroke.Visible = false;
+            lblOption1Name.Visible = false;
+            lblOption2Name.Visible = false;
+            lblOption3Name.Visible = false;
+            lblOption4Name.Visible = false;
+            lblOption5Name.Visible = false;
+            lblOption6Name.Visible = false;
+            lblOption7Name.Visible = false;
+            lblOption8Name.Visible = false;
+            lblOption9Name.Visible = false;
+            lblOption10Name.Visible = false;
+            lblOption1NameStroke.Visible = false;
+            lblOption2NameStroke.Visible = false;
+            lblOption3NameStroke.Visible = false;
+            lblOption4NameStroke.Visible = false;
+            lblOption5NameStroke.Visible = false;
+            lblOption6NameStroke.Visible = false;
+            lblOption7NameStroke.Visible = false;
+            lblOption8NameStroke.Visible = false;
+            lblOption9NameStroke.Visible = false;
+            lblOption10NameStroke.Visible = false;
+
+            lblOptionsWelcome.Text = "Type the name of the restaraunt to add below.\nLong Names get cut off.";
+            txtInput.Visible = true;
+            btnConfirm.Visible = true;
+        }
+
+        private void deleteFromFile(string optionToDelete)
+        {
+            lblOption1Name.Text = String.Empty;
+            lblOption2Name.Text = String.Empty;
+            lblOption3Name.Text = String.Empty;
+            lblOption4Name.Text = String.Empty;
+            lblOption5Name.Text = String.Empty;
+            lblOption6Name.Text = String.Empty;
+            lblOption7Name.Text = String.Empty;
+            lblOption8Name.Text = String.Empty;
+            lblOption9Name.Text = String.Empty;
+            lblOption10Name.Text = String.Empty;
+
+            string filePath = @"restaraunts.txt";
+            List<string> lines = new List<string>();
+            lines = File.ReadAllLines(filePath).ToList();
+            string fileContents = lines[0];
+
+            foreach (string line in lines)
+            {
+                int i = 1;
+                String[] parts = line.Split(',');
+                //Console.WriteLine(line);
+                foreach (string part in parts)
+                {
+                    if (part != "" && part != optionToDelete)
+                    {
+                        switch (i)
+                        {
+                            case 1:
+                                lblOption1Name.Text = part;
+                                break;
+                            case 2:
+                                lblOption2Name.Text = part;
+                                break;
+                            case 3:
+                                lblOption3Name.Text = part;
+                                break;
+                            case 4:
+                                lblOption4Name.Text = part;
+                                break;
+                            case 5:
+                                lblOption5Name.Text = part;
+                                break;
+                            case 6:
+                                lblOption6Name.Text = part;
+                                break;
+                            case 7:
+                                lblOption7Name.Text = part;
+                                break;
+                            case 8:
+                                lblOption8Name.Text = part;
+                                break;
+                            case 9:
+                                lblOption9Name.Text = part;
+                                break;
+                            case 10:
+                                lblOption10Name.Text = part;
+                                break;
+                        }
+                    }
+                    i++;
+                }
+            }
+            string maxFileContents = lblOption1Name.Text + "," + lblOption2Name.Text + "," + lblOption3Name.Text + "," + lblOption4Name.Text + "," + lblOption5Name.Text + "," + lblOption6Name.Text + "," + lblOption7Name.Text + "," + lblOption8Name.Text + "," + lblOption9Name.Text + "," + lblOption10Name.Text;
+            File.WriteAllText(filePath, maxFileContents);
+        }
+
+        private void btnConfirm_Click(object sender, EventArgs e)
+        {
+            int maxStringLength = 60;
+            bool textAdded = false;
+
+            if (txtInput.Text.Length > maxStringLength)
+            {
+                lblOptionsWelcome.Text = "We can't allow more than " + maxStringLength + " characters in a name.\nYou're currently at " + txtInput.Text.Length + " characters.";
+                return;
+            }
+
+            if (txtInput.Text.Contains(","))
+            {
+                lblOptionsWelcome.Text = "Unfortunately your restaraunt has a comma in it.\nThat seriously messes up our list.\nPlease don't give us commas.";
+                return;
+            }
+
+            if (lblOption10Name.Text != String.Empty && textAdded == false)
+            {
+                lblOptionsWelcome.Text = "You already have the maximum number of options.";
+                textAdded = true;
+            }
+
+            if (lblOption1Name.Text == String.Empty && textAdded == false)
+            {
+                lblOption1Name.Text = txtInput.Text;
+                textAdded = true;
+            }
+
+            if (lblOption2Name.Text == String.Empty && textAdded == false)
+            {
+                lblOption2Name.Text = txtInput.Text;
+                textAdded = true;
+            }
+
+            if (lblOption3Name.Text == String.Empty && textAdded == false)
+            {
+                lblOption3Name.Text = txtInput.Text;
+                textAdded = true;
+            }
+
+            if (lblOption4Name.Text == String.Empty && textAdded == false)
+            {
+                lblOption4Name.Text = txtInput.Text;
+                textAdded = true;
+            }
+
+            if (lblOption5Name.Text == String.Empty && textAdded == false)
+            {
+                lblOption5Name.Text = txtInput.Text;
+                textAdded = true;
+            }
+
+            if (lblOption6Name.Text == String.Empty && textAdded == false)
+            {
+                lblOption6Name.Text = txtInput.Text;
+                textAdded = true;
+            }
+
+            if (lblOption7Name.Text == String.Empty && textAdded == false)
+            {
+                lblOption7Name.Text = txtInput.Text;
+                textAdded = true;
+            }
+
+            if (lblOption8Name.Text == String.Empty && textAdded == false)
+            {
+                lblOption8Name.Text = txtInput.Text;
+                textAdded = true;
+            }
+
+            if (lblOption9Name.Text == String.Empty && textAdded == false)
+            {
+                lblOption9Name.Text = txtInput.Text;
+                textAdded = true;
+            }
+
+            if (lblOption10Name.Text == String.Empty && textAdded == false)
+            {
+                lblOption10Name.Text = txtInput.Text;
+                textAdded = true;
+            }
+
+            btnConfirm.Visible = false;
+            txtInput.Visible = false;
+            showSecondPage();
+            string filePath = @"restaraunts.txt";
+            string maxFileContents = lblOption1Name.Text + "," + lblOption2Name.Text + "," + lblOption3Name.Text + "," + lblOption4Name.Text + "," + lblOption5Name.Text + "," + lblOption6Name.Text + "," + lblOption7Name.Text + "," + lblOption8Name.Text + "," + lblOption9Name.Text + "," + lblOption10Name.Text;
+            File.WriteAllText(filePath, maxFileContents);
+            lblOptionsWelcome.Text = "Hey there! Feel free to make some edits here!";
+        }
+    }
+}
+//gamer time
+
